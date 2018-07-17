@@ -137,8 +137,7 @@ input[type=button] {
     width: 173px !important;
 }
 
-.leaflet-popup-content {
-    margin: 13px 19px;
+.cluster {
     width: 301px;
     height: 186px;
     display: inline-block;

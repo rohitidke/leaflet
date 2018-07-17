@@ -96,9 +96,10 @@ function showCluster() {
 markers.on('clusterclick', function (a) {
     var marker = a.layer.getAllChildMarkers()[0];
     var cluster = a.target.getVisibleParent(marker);
-    var content = "";
+    var content = "<div class='cluster'>";
     for (var i = 0; i < a.layer.getAllChildMarkers().length; i++)
         content = content + samplePopup();
+    content = content + '</div>';    
     cluster.bindPopup(content).openPopup();
 });
 
