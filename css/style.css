@@ -130,3 +130,10 @@ input[type=button] {
     height: 83px !important;
     width: 173px !important;
 }
+
+.cluster {
+    width: 301px;
+    height: 186px;
+    display: inline-block;
+    overflow: auto;
+}

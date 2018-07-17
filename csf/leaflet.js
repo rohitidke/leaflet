@@ -19,6 +19,12 @@ var myIcon2 = L.icon({
     popupAnchor: [-3, -45],
 });
 
+var markers = new L.MarkerClusterGroup({
+    spiderfyOnMaxZoom: false,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: false
+});
+
 (function bodyLoad() {
 
     /* pass map parameter, to show function details. */
@@ -249,6 +255,37 @@ function drawCircle() {
 
 
 /**
+ function to show clusters of markers
+ */
+function showCluster() {
+    /** Count is here from user input. */
+    var count = prompt("Please enter marker count to view cluster", "10");
+    loadDescription("AddClusterDescription");
+
+    if (count != 0 || count != undefined || count != null) {
+        for (var i = 0; i < count; i++) {
+            marker = L.marker([21.094 + Math.random(), 77.04 + Math.random()], { icon: myIcon1, draggable: true });
+            marker.bindPopup("Sample Popup " + i);
+            this.mapMarkers.push(marker);
+            markers.addLayer(marker);
+            markerEffect(marker);
+        }
+    }
+    mymap.addLayer(markers);
+}
+
+markers.on('clusterclick', function (a) {
+    var marker = a.layer.getAllChildMarkers()[0];
+    var cluster = a.target.getVisibleParent(marker);
+    var content = "<div class='cluster'>";
+    for (var i = 0; i < a.layer.getAllChildMarkers().length; i++)
+        content = content + samplePopup();
+    content = content + '</div>';
+    cluster.bindPopup(content).openPopup();
+});
+
+
+/**
  function to Reset Map View
  */
 
@@ -309,6 +346,8 @@ function clearMap() {
         flag = 1;
         toggleToolbar();
     }
+    mymap.removeLayer(markers);
+
     loadDescription("ClearMapDescription");
 }
 
@@ -319,9 +358,9 @@ function clearMap() {
  */
 
 function samplePopup() {
-    var htmlPopup = "<div style='height:30px; width:100%'>Sample Popup Header.</div>" +
+    var htmlPopup = "<div style='background: #EDEEFC;margin:5px !important;border:1px solid #BBBBBB; padding: 4px;'><div style='height:30px; width:100%'>Sample Popup Header.</div>" +
         "<div style='height:100px; width:100%'>Popup Content goes here.</div>" +
-        "<div style='height:30px; width:100%'>Sample normal text of popup with link will goes here.</div>"
+        "<div style='height:30px; width:100%'>Sample normal text of popup with link will goes here.</div></div>"
 
     return htmlPopup;
 }
